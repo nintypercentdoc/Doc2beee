@@ -1,22 +1,23 @@
-const CACHE_NAME = 'med-countdown-v17';
+const CACHE_NAME = 'timer-app-cache-v20';
 const ASSETS_TO_CACHE = [
-  'index.html',
-  'manifest.json',
-  'tabeeb.mp3',
-  'https://i.ibb.co/JFjmFfnG/IMG-20260516-WA0015.jpg'
+  './index.html',
+  './manifest.json',
+  'https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap',
+  'https://i.ibb.co/4nDSxvKG/IMG-20261020-184006-088.jpg',
+  'https://i.ibb.co/NdWZjpVX/IMG-20260516-WA0015.jpg'
 ];
 
-// Instantly download and cache assets
+// Install Event
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('Caching assets for offline capability...');
       return cache.addAll(ASSETS_TO_CACHE);
-    }).then(() => self.skipWaiting())
+    })
   );
+  self.skipWaiting();
 });
 
-// Clear old caches if updates happen later
+// Activate Event
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -27,15 +28,28 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
-    }).then(() => self.clients.claim())
+    })
   );
+  self.clients.claim();
 });
 
-// Serve local assets directly when phone is offline
+// Fetch Event (Cache-first with Network fallback)
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      return cachedResponse || fetch(event.request);
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+      return fetch(event.request).then((networkResponse) => {
+        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+          return networkResponse;
+        }
+        const responseToCache = networkResponse.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, responseToCache);
+        });
+        return networkResponse;
+      });
     })
   );
 });
