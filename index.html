@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>احنا هنخلص امته بجد</title>
+    <title>احنا هنخلص امته بجد؟؟</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -55,7 +55,7 @@
             pointer-events: none;
         }
 
-        /* Primary Background Image Layer (Set to contain so the full image is preserved without cropping) */
+        /* Primary Background Image Layer (Set to contain so any uploaded image of any size fits without cropping) */
         .bg-image-layer {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -415,6 +415,24 @@
         .game-action-btn:active { transform: scale(0.95); }
         .game-action-btn.active-state { background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%) !important; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.4) !important; }
 
+        .restore-btn {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            color: #fca5a5;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 4px;
+            font-family: 'Tajawal', sans-serif;
+        }
+        .restore-btn:active {
+            background: rgba(239, 68, 68, 0.4);
+            transform: scale(0.97);
+        }
+
         .switch { position: relative; display: inline-block; width: 48px; height: 26px; flex-shrink: 0; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255, 255, 255, 0.15); transition: .3s; border-radius: 26px; border: 1px solid rgba(255, 255, 255, 0.1); }
@@ -450,7 +468,7 @@
     <div class="bg-overlay"></div>
 
     <!-- Layer 2: Main Background Picture Positioned IN FRONT of the Hue and Stones -->
-    <div class="bg-image-layer"></div>
+    <div class="bg-image-layer" id="bgImageLayer"></div>
 
     <canvas id="victoryConfettiCanvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 6; pointer-events: none; display: none;"></canvas>
 
@@ -474,7 +492,7 @@
     <div id="breakHUD" style="display: none; position: fixed; top: env(safe-area-inset-top, 12px); left: 50%; transform: translateX(-50%); z-index: 9998; background: rgba(10, 12, 18, 0.94); border: 1px solid #f59e0b; padding: 6px 16px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.6), 0 0 12px rgba(245, 158, 11, 0.3); text-align: center; direction: rtl; pointer-events: auto;">
         <div style="font-size: 0.65rem; color: #f59e0b; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 0px;">وقت البريك</div>
         <div id="breakDisplay" style="font-size: 1.45rem; font-weight: 900; color: #ffffff; font-variant-numeric: tabular-nums; text-shadow: 0 1px 4px rgba(0,0,0,0.8); line-height: 1.2;">05:00</div>
-        <button id="skipBreakBtn" style="background: transparent; border: none; color: #fef08a; font-size: 0.65rem; font-weight: bold; cursor: pointer; text-decoration: underline; margin-top: 1px; outline: none;">تخطي</button>
+        <button id="skipBreakBtn" style="background: transparent; border: none; color: #fef08a; font-size: 0.65rem; font-weight: bold; cursor: pointer; text-decoration: underline; margin-top: 1px; outline: none;">كفاية كدة</button>
     </div>
 
     <div style="display:none;">
@@ -487,8 +505,8 @@
     <img src="https://i.ibb.co/4nDSxvKG/IMG-20261020-184006-088.jpg" class="bounce-screensaver" id="bouncingComponent" alt="Bouncing Screensaver">
     
     <div class="zoom-drag-component" id="primaryComponent">
-        <h1>الوقت المتبقي لنهاية الترم</h1>
-        <span class="sub-text" id="phraseDisplay">اخر رقصة</span>
+        <h1>الوقت المتبقي لنهاية الطب</h1>
+        <span class="sub-text" id="phraseDisplay">THE LAST DANCE</span>
         
         <div class="countdown">
             <div class="box"><span class="number" id="days">00</span><span class="label">Days</span></div>
@@ -517,14 +535,15 @@
         
         <div class="shelf-inner-content">
             <h3>شرح لمدي خوطوره الموقع</h3>
-            <p>اولا: تعرف ان التايمرات دي ممكن تحركها عادي لأي مكان？？</p>
+            <p>اولا: تعرف ان التايمرات دي ممكن تحركها عادي لأي مكان</p>
             <p>لا وممكن كمان تغير حجمها جرب كده</p>
-            <p>ثانيا بقا الصوره دي ممكن تمسكها عادي وتكبرها وتصغرها كماه وترميها ف اي اتجاه براحتك (جرب كده تصغرها وارميها بسرعه ولو راجل وقفها بقا)</p>
-            <p>ثالثا بقا تقدر تغير الجمله المكتوبه دي فوق التايمر ديولو غيرتها هتفضل متغيره لما تيجي تخش تاني المفروض يعني😂😂</p>
+            <p>ثانيا بقا الصوره دي ممكن تمسكها عادي وتكبرها وتصغرها كماه وترميها ف اي اتجاه براحتك</p>
+            <p>ثالثا بقا تقدر تغير الجمله المكتوبه دي فوق التايمر ولو غيرتها هتفضل متغيره لما تيجي تخش تاني المفروض يعني😂😂</p>
             <p>رابعا عندك برومودرو علشان ميبقاش عندك حجة متذاكرش</p>
-            <p>عندك بردو لعب خوطورة هي كان فيها شويه ديفوهات بس خلاص تم تظبيطها 😎</p>
-
-            <p>ولو تبتتمرقع روح ذاكر بقا بجدخد لينك مجمعة نينجا اهو علشان ميبقاش عندك حجج(نزلت روح شوفها)</p> 
+            <p>وعندك بردو لعب خوطورة علشان تلعبها ف البريك 😎</p>
+            <p> وتقدر تحمل الاب ب انك تدوس ع التلت نقط اللي فوق دول وتعمل install</p>
+            <p>وتقدر تغير الصورة بتاعت الخلفية دي لأي صورة تحبها</p>
+            <p>ولو بتتمرقع روح ذاكر بقا بجد خد لينك مجمعة نينجا اهو علشان ميبقاش عندك حجج(نزلت روح شوفها)</p> 
             <p>دوس <a href="https://t.me/medicine39mu" target="_blank" class="shelf-link">هنا</a> اهو</p>
 
             <div class="settings-container">
@@ -541,7 +560,7 @@
                         </div>
                     </div>
                     <div class="game-button-centering-box" style="margin-top: 10px;">
-                        <button class="game-action-btn" id="pomodoroBtn" style="background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%); color: #030408; box-shadow: 0 4px 15px rgba(234, 179, 8, 0.4); width: 100%;">ابدأ جلسة التركيز</button>
+                        <button class="game-action-btn" id="pomodoroBtn" style="background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%); color: #030408; box-shadow: 0 4px 15px rgba(234, 179, 8, 0.4); width: 100%;">ابدأ المذاكرة</button>
                     </div>
                 </div>
 
@@ -550,8 +569,14 @@
                     <input type="text" id="phraseInput" placeholder="اكتب جملتك هنا...">
                 </div>
 
+                <div class="setting-row">
+                    <label for="bgImageInput">اختار اي صورة من عندك</label>
+                    <input type="file" id="bgImageInput" accept="image/*" style="background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(234, 179, 8, 0.3); border-radius: 10px; padding: 8px; color: #ffffff; font-size: 0.85rem; outline: none; cursor: pointer; direction: ltr;">
+                    <button id="restoreBgBtn" class="restore-btn">رجع الصورة الأصلية</button>
+                </div>
+
                 <div class="setting-row toggle-row">
-                    <label for="bouncerToggle">إظهار أو إخفاء الصورة المتحركة</label>
+                    <label for="bouncerToggle">اظهر أو اخفي الصورة اللي عمالة تتحرك دي</label>
                     <label class="switch">
                         <input type="checkbox" id="bouncerToggle" checked>
                         <span class="slider"></span>
@@ -1202,9 +1227,33 @@
         window.addEventListener('pointerup', () => { if (!globalIsTracking) return; globalIsTracking = false; shelf.style.transition = 'transform 0.38s cubic-bezier(0.25, 1, 0.5, 1)'; if (!shelfIsOpen) { if (globalCurrentDeltaY < -40) { shelf.style.transform = 'translateY(0px)'; shelfIsOpen = true; } else shelf.style.transform = `translateY(${getClosedTranslationValue()}px)`; } else { if (globalCurrentDeltaY > 40) { shelf.style.transform = `translateY(${getClosedTranslationValue()}px)`; shelfIsOpen = false; } else shelf.style.transform = 'translateY(0px)'; } });
 
         const phraseDisplay = document.getElementById('phraseDisplay'), phraseInput = document.getElementById('phraseInput'), bouncerToggle = document.getElementById('bouncerToggle'), gameModeBtn = document.getElementById('gameModeBtn');
+        const bgImageLayer = document.getElementById('bgImageLayer'), bgImageInput = document.getElementById('bgImageInput'), restoreBgBtn = document.getElementById('restoreBgBtn');
+
+        const DEFAULT_BG_URL = 'https://i.ibb.co/NdWZjpVX/IMG-20260516-WA0015.jpg';
         const savedPhrase = localStorage.getItem('customPhrase'), savedBouncerState = localStorage.getItem('bouncerVisibility');
+        const savedCustomBg = localStorage.getItem('customBgImage');
         
         if (savedPhrase !== null) { phraseDisplay.innerText = savedPhrase; phraseInput.value = savedPhrase; }
+        if (savedCustomBg !== null) { bgImageLayer.style.backgroundImage = `url('${savedCustomBg}')`; }
+        
+        bgImageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const base64String = event.target.result;
+                    bgImageLayer.style.backgroundImage = `url('${base64String}')`;
+                    localStorage.setItem('customBgImage', base64String);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        restoreBgBtn.addEventListener('click', () => {
+            localStorage.removeItem('customBgImage');
+            bgImageLayer.style.backgroundImage = `url('${DEFAULT_BG_URL}')`;
+            bgImageInput.value = '';
+        });
         
         if (savedBouncerState !== null) { 
             const isVisible = savedBouncerState === 'true';
