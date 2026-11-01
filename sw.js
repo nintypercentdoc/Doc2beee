@@ -1,7 +1,9 @@
-const CACHE_NAME = 'timer-app-cache-v24';
+const CACHE_NAME = 'timer-app-cache-v3';
 const ASSETS_TO_CACHE = [
   './index.html',
   './manifest.json',
+  './tabeeb.mp3',
+  './stouhi.mp3',
   'https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap',
   'https://i.ibb.co/4nDSxvKG/IMG-20261020-184006-088.jpg',
   'https://i.ibb.co/NdWZjpVX/IMG-20260516-WA0015.jpg'
@@ -33,23 +35,19 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch Event (Cache-first with Network fallback)
+// Fetch Event (Network-first for HTML/manifest to ensure fresh updates, cache fallback)
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-      return fetch(event.request).then((networkResponse) => {
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-          return networkResponse;
+    fetch(event.request)
+      .then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
         }
-        const responseToCache = networkResponse.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache);
-        });
         return networkResponse;
-      });
-    })
+      })
+      .catch(() => caches.match(event.request))
   );
 });
