@@ -496,9 +496,7 @@
     </div>
 
     <div style="display:none;">
-        <audio id="bg-music" loop preload="auto" muted>
-            <source src="tabeeb.mp3" type="audio/mpeg">
-        </audio>
+        <audio id="bg-music" loop preload="auto" muted></audio>
     </div>
 
     <!-- Bouncing Picture Component -->
@@ -598,6 +596,17 @@
     </div>
 
     <script>
+        // --- SHUFFLE AUDIO PLAYLIST ENGINE ---
+        const playlist = ["tabeeb.mp3", "stouhi.mp3"];
+        const bgAudioElement = document.getElementById("bg-music");
+
+        function pickRandomTrack() {
+            const randomIndex = Math.floor(Math.random() * playlist.length);
+            bgAudioElement.src = playlist[randomIndex];
+            bgAudioElement.load();
+        }
+        pickRandomTrack();
+
         // --- FALLING INFINITY STONES PARTICLES (BEHIND HUE & PICTURE) ---
         const stoneCanvas = document.getElementById('stoneCanvas');
         const stoneCtx = stoneCanvas.getContext('2d');
@@ -1300,7 +1309,17 @@
             }
         });
 
-        function playBackgroundMusic() { const audioStream = document.getElementById("bg-music"), AC = window.AudioContext || window.webkitAudioContext; if (AC) { const audioCtx = new AC(); if (audioCtx.state === 'suspended') audioCtx.resume(); } audioStream.muted = false; audioStream.play().catch(err => {}); window.removeEventListener('click', playBackgroundMusic); window.removeEventListener('touchstart', playBackgroundMusic); }
+        function playBackgroundMusic() { 
+            const audioStream = document.getElementById("bg-music"), AC = window.AudioContext || window.webkitAudioContext; 
+            if (AC) { 
+                const audioCtx = new AC(); 
+                if (audioCtx.state === 'suspended') audioCtx.resume(); 
+            } 
+            audioStream.muted = false; 
+            audioStream.play().catch(err => {}); 
+            window.removeEventListener('click', playBackgroundMusic); 
+            window.removeEventListener('touchstart', playBackgroundMusic); 
+        }
         window.addEventListener('click', playBackgroundMusic); window.addEventListener('touchstart', playBackgroundMusic);
         window.addEventListener('resize', () => { resizeStoneCanvas(); initShelfLayout(); posX = Math.min(posX, window.innerWidth - (bouncer.offsetWidth * bounceTransform.scale)); posY = Math.min(posY, window.innerHeight - (bouncer.offsetHeight * bounceTransform.scale)); if(gameModeActive) { initBreakoutLayout(); if(secondaryComp.applyYourTransforms) secondaryComp.applyYourTransforms(); } if(flappyActive) { flappyCanvas.width = window.innerWidth; flappyCanvas.height = window.innerHeight; } });
         if ('serviceWorker' in navigator) window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(err => {}); });
