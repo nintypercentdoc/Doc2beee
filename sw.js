@@ -1,5 +1,6 @@
-const CACHE_NAME = 'timer-app-cache-v3';
+const CACHE_NAME = 'timer-app-cache-v30';
 const ASSETS_TO_CACHE = [
+  './',
   './index.html',
   './manifest.json',
   './tabeeb.mp3',
@@ -35,7 +36,7 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch Event (Network-first for HTML/manifest to ensure fresh updates, cache fallback)
+// Fetch Event (Network-first to ensure fresh updates, cache fallback for offline mode)
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     fetch(event.request)
