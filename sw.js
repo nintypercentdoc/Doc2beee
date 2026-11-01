@@ -1,26 +1,11 @@
-const CACHE_NAME = 'timer-app-cache-v30';
-const ASSETS_TO_CACHE = [
-  './',
-  './index.html',
-  './manifest.json',
-  './tabeeb.mp3',
-  './stouhi.mp3',
-  'https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap',
-  'https://i.ibb.co/4nDSxvKG/IMG-20261020-184006-088.jpg',
-  'https://i.ibb.co/NdWZjpVX/IMG-20260516-WA0015.jpg'
-];
+const CACHE_NAME = 'timer-app-cache-v35';
 
 // Install Event
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
-    })
-  );
+self.addEventListener('install', () => {
   self.skipWaiting();
 });
 
-// Activate Event
+// Activate Event - Clean up old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -36,12 +21,14 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch Event (Network-first to ensure fresh updates, cache fallback for offline mode)
+// Fetch Event - Dynamic Network-First strategy (saves any loaded asset automatically)
 self.addEventListener('fetch', (event) => {
+  if (event.request.method !== 'GET') return;
+
   event.respondWith(
     fetch(event.request)
       .then((networkResponse) => {
-        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+        if (networkResponse && networkResponse.status === 200) {
           const responseToCache = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
             cache.put(event.request, responseToCache);
@@ -52,3 +39,4 @@ self.addEventListener('fetch', (event) => {
       .catch(() => caches.match(event.request))
   );
 });
+```
